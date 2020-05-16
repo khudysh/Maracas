@@ -8,6 +8,10 @@ from random import shuffle
 import json
 import os
 import sys
+from colorama import init, Fore, Back, Style
+
+init()
+
 
 def DisMusOp(songs, n):
     DISCORD_ICON = (551, 767)
@@ -22,6 +26,7 @@ def DisMusOp(songs, n):
 
 
 def DisMus(temp, n):
+    print(Fore.GREEN+Style.BRIGHT+"Okey, went to the Discord, you're have 4s"+Style.RESET_ALL)
     time.sleep(4)
     for section, commands in temp.items():
         time.sleep(2)
@@ -36,11 +41,11 @@ def MainWork(response, choice):
     response.encoding = 'utf-8'
 
     if response.status_code == 200:
-        print('Success!')
+        print(Fore.GREEN+Style.BRIGHT+'Success!'+Style.RESET_ALL)
     elif response.status_code == 404:
-        print('Not Found')
+        print(Fore.YELLOW+Style.BRIGHT+'Not Found'+Style.RESET_ALL)
     else:
-        print('An error has occurred.')
+        print(Fore.RED+Style.BRIGHT+'An error has occurred.')
         print(response)
 
     content = BeautifulSoup(response.content, "html.parser")
@@ -82,14 +87,14 @@ def MainWork(response, choice):
         file_content = f.read()
         temp = json.loads(file_content)
 
-    print("Downloaded "+str(len(songs))+" songs")
+    print("Downloaded "+Fore.YELLOW+Style.BRIGHT+str(len(songs))+Style.RESET_ALL+" songs")
     n = int(input("Amount of songs: "))
 
     return temp, n
 
 
 def PlayByUser(choice):
-    print("link like: https://music.yandex.ru/users/*username*/tracks")
+    print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/users/*username*/tracks"+Style.RESET_ALL)
     user = input("Username: ")
     response = requests.get("https://music.yandex.ru/users/"+user+"/tracks")
 
@@ -99,7 +104,7 @@ def PlayByUser(choice):
 
 
 def PlayByPlaylist(choice):
-    print("link like: https://music.yandex.ru/users/music-blog/playlists/*number*")
+    print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/users/music-blog/playlists/*number*"+Style.RESET_ALL)
     playlist = input("Playlist number: ")
     response = requests.get("https://music.yandex.ru/users/music-blog/playlists/"+playlist)
 
@@ -109,7 +114,7 @@ def PlayByPlaylist(choice):
 
 
 def PlayByOwn(choice):
-    print("link like: https://music.yandex.ru/users/*username*/playlists/*number*")
+    print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/users/*username*/playlists/*number*"+Style.RESET_ALL)
     user = input("Username: ")
     playlist = input("Playlist number: ")
     response = requests.get("https://music.yandex.ru/users/"+user+"/playlists/"+playlist)
@@ -120,7 +125,7 @@ def PlayByOwn(choice):
 
 
 def PlayByArtist(choice):
-    print("link like: https://music.yandex.ru/artist/*number*/tracks")
+    print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/artist/*number*/tracks"+Style.RESET_ALL)
     artist = input("Artist number: ")
     response = requests.get("https://music.yandex.ru/artist/"+artist+"/tracks")
 
@@ -132,6 +137,7 @@ def PlayByArtist(choice):
 def Restart():
     t = input("Restart? y/n: ")
     if (t == "y"):
+        os.system('cls' if os.name == 'nt' else 'clear')
         os.execl(sys.executable, sys.executable, *sys.argv)
     else:
         quit()
@@ -153,7 +159,7 @@ def SwitchMode(choice):
     elif choice == "5":
         quit()
     else:
-        print("Wrong code")
+        print(Fore.RED+Style.BRIGHT+"Wrong code"+Style.RESET_ALL)
         Restart()
 
 #Daily playlist: https://music.yandex.ru/users/yamusic-daily/playlists/63562191
