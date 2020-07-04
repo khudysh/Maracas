@@ -13,7 +13,7 @@ from colorama import init, Fore, Back, Style
 init()
 
 
-def DisMusOp(songs, n):
+def disMusOp(songs, n):
     DISCORD_ICON = (551, 767)
     pyautogui.moveTo(DISCORD_ICON)
     time.sleep(1)
@@ -25,19 +25,21 @@ def DisMusOp(songs, n):
         time.sleep(3)
 
 
-def DisMus(temp, n):
+def disMus(temp, n):
     print(Fore.GREEN+Style.BRIGHT+"Okey, went to the Discord, you're have 4s"+Style.RESET_ALL)
     time.sleep(4)
     for section, commands in temp.items():
         time.sleep(2)
         for i in range(n):
             pyperclip.copy(''.join(commands[i]))
-            pyautogui.hotkey('ctrl', 'v')
+            if os.name == 'nt':
+                pyautogui.hotkey('ctrl', 'v')
+            else: pyautogui.hotkey('command', 'v')
             pyautogui.keyDown("enter")
             time.sleep(3)
 
 
-def MainWork(response, choice):
+def mainWork(response, choice):
     response.encoding = 'utf-8'
 
     if response.status_code == 200:
@@ -76,7 +78,7 @@ def MainWork(response, choice):
 
         all = ["-p " + artists[k] + " - " + songs[k] for k in range(len(song_name))]
 
-    shuffle(all)
+    shuffleA(all)
 
     to_json = {'musica': all}
 
@@ -93,73 +95,89 @@ def MainWork(response, choice):
     return temp, n
 
 
-def PlayByUser(choice):
+def playByUser(choice):
     print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/users/*username*/tracks"+Style.RESET_ALL)
     user = input("Username: ")
     response = requests.get("https://music.yandex.ru/users/"+user+"/tracks")
 
-    temp, n = MainWork(response, choice)
+    temp, n = mainWork(response, choice)
 
-    DisMus(temp, n)
+    disMus(temp, n)
 
 
-def PlayByPlaylist(choice):
+def playByPlaylist(choice):
     print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/users/music-blog/playlists/*number*"+Style.RESET_ALL)
     playlist = input("Playlist number: ")
     response = requests.get("https://music.yandex.ru/users/music-blog/playlists/"+playlist)
 
-    temp, n = MainWork(response, choice)
+    temp, n = mainWork(response, choice)
 
-    DisMus(temp, n)
+    disMus(temp, n)
+
+def PlayByAlbum(choice):
+    print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/album/*number*"+Style.RESET_ALL)
+    playlist = input("Album number: ")
+    response = requests.get("https://music.yandex.ru/album/"+playlist)
+
+    temp, n = mainWork(response, choice)
+
+    disMus(temp, n)
 
 
-def PlayByOwn(choice):
+def playByOwn(choice):
     print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/users/*username*/playlists/*number*"+Style.RESET_ALL)
     user = input("Username: ")
     playlist = input("Playlist number: ")
     response = requests.get("https://music.yandex.ru/users/"+user+"/playlists/"+playlist)
 
-    temp, n = MainWork(response, choice)
+    temp, n = mainWork(response, choice)
 
-    DisMus(temp, n)
+    disMus(temp, n)
 
 
-def PlayByArtist(choice):
+def playByArtist(choice):
     print(Fore.BLACK+Style.BRIGHT+"link like: https://music.yandex.ru/artist/*number*/tracks"+Style.RESET_ALL)
     artist = input("Artist number: ")
     response = requests.get("https://music.yandex.ru/artist/"+artist+"/tracks")
 
-    temp, n = MainWork(response, choice)
+    temp, n = mainWork(response, choice)
 
-    DisMus(temp, n)
+    disMus(temp, n)
 
 
-def Restart():
-    t = input("Restart? y/n: ")
+def restart():
+    t = input("restart? y/n: ")
     if (t == "y"):
         os.system('cls' if os.name == 'nt' else 'clear')
         os.execl(sys.executable, sys.executable, *sys.argv)
     else:
         quit()
 
+def shuffleA(all):
+    t = input("shuffle all? y/n: ")
+    if (t == "y"):
+        shuffle(all)
 
-def SwitchMode(choice):
+def switchMode(choice):
     if choice == "1":
-        PlayByUser(choice)
-        Restart()
+        playByUser(choice)
+        restart()
     elif choice == "2":
-        PlayByPlaylist(choice)
-        Restart()
+        playByPlaylist(choice)
+        restart()
     elif choice == "3":
-        PlayByArtist(choice)
-        Restart()
+        playByArtist(choice)
+        restart()
     elif choice == "4":
-        PlayByOwn(choice)
-        Restart()
+        playByOwn(choice)
+        restart()
     elif choice == "5":
+        playByAlbum(choice)
+        restart()
+    elif choice == "6":
         quit()
     else:
         print(Fore.RED+Style.BRIGHT+"Wrong code"+Style.RESET_ALL)
-        Restart()
+        restart()
 
 #Daily playlist: https://music.yandex.ru/users/yamusic-daily/playlists/63562191
