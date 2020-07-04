@@ -9,6 +9,7 @@ functions = [
             "Enter number of playlist (link), and I'll play it",
             "Enter number of artist (link)",
             "Enter your OWN playlist",
+            "Enter album number",
             "Exit"
             ]
 
@@ -17,8 +18,8 @@ for i in range(len(functions)):
     print(Fore.CYAN+" ",str(i+1)+")", functions[i]+ Style.RESET_ALL)
 
 
-#input("If you're have a Discord bot, enter your prefix, else leave blank: ")
+# input("If you're have a Discord bot, enter your prefix, (Default: Groovy): ")
 
-YaMusLib.SwitchMode(input("\nCHOOSE YOUR DESTINY: "))
+YaMusLib.switchMode(input("\nCHOOSE YOUR DESTINY: "))
 
 #не выдавать при ошибке кол-во песен
