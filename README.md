@@ -8,10 +8,10 @@ Welcome to YandexMusic parser — Maracas!
 
 Features:
 
-1) Parse your own music 
-2) Play yandex playlists
-3) Play music by various authors
-4) Play custom playlists
-5) Play albums
+1) Parse and play your own music 
+2) Parse and play yandex playlists
+3) Parse and play music by various authors
+4) Parse and play custom playlists
+5) Parse and play albums
 
 P.s. We have a limit 150 songs by one parsing
